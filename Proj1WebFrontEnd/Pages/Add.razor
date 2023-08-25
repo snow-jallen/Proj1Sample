@@ -1,0 +1,29 @@
+﻿@page "/add"
+@using Proj1Shared;
+@inject HttpClient httpClient
+@inject IConfiguration config
+
+<h3>Add</h3>
+
+<input @bind="num1" type="number" placeholder="num1" />
+<input @bind="num2" type="number" placeholder="num2" />
+<button @onclick="callAddApi">Add</button>
+
+@if (response != null)
+{
+    <p>Sum: @response.Sum</p>
+    <p>Generated on: @response.GeneratedOn</p>
+}
+
+@code {
+    int num1;
+    int num2;
+    AdditionResponse response;
+
+    async Task callAddApi()
+    {
+        var apiAddress = config["ApiAddress"];
+        var url = $"{apiAddress}/add?num1={num1}&num2={num2}";
+        response = await httpClient.GetFromJsonAsync<AdditionResponse>(url);
+    }
+}

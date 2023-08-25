@@ -1,3 +1,5 @@
+using Proj1Shared;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -35,6 +37,10 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
+
+app.MapGet("/add", (int num1, int num2) => 
+    new AdditionResponse { Sum = num1 + num2, GeneratedOn = DateTime.Now }
+);
 
 app.Run();
 
